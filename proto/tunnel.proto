@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package service;
+
+option go_package = "./;controller";
+
+service Tunnel{
+  rpc CreateTunnel(TunnelRequest) returns (TunnelReply){};
+  rpc Streaming(stream  StreamingRequest) returns (stream  StreamingReply){};
+}
+
+message TunnelRequest{
+  string message = 1;
+}
+
+message TunnelReply{
+  string url = 1;
+}
+
+message StringArray{
+  repeated string header = 1;
+}
+message StreamingRequest{
+  map<string, StringArray> header = 1;
+  bytes body = 2;
+  int32 status = 3;
+  string id = 4;
+}
+message  StreamingReply{
+  string url = 1;
+  map<string, StringArray> header = 2;
+  bytes body = 3;
+  string method = 4;
+  string id = 5;
+}
